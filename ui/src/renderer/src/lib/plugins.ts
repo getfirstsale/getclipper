@@ -73,7 +73,7 @@ async function call<T>(path: string, init: RequestInit = {}, guarded = false): P
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
   if (guarded) {
     const s = await sessionSecret()
-    if (!s) throw new Error('Installing and changing plugins needs the Clips Kitty desktop app.')
+    if (!s) throw new Error('Installing and changing plugins needs the getclipper desktop app.')
     headers['X-Clips-Kitty-Session'] = s
   }
   const res = await fetch(`${API_BASE}${path}`, { ...init, headers })
@@ -109,14 +109,14 @@ export const plugins = {
     return call<CatalogResponse>(`/marketplace/catalog${qs ? `?${qs}` : ''}`)
   },
   /** Check for new listings. `automatic`: the Marketplace opening, which
-   *  checks Clips Kitty's online list only when it is due (once a day). */
+   *  checks getclipper's online list only when it is due (once a day). */
   refresh: (automatic = false) =>
     call<{ checked: boolean; indexes: { url: string; ok: boolean; error?: string | null }[] }>(
       '/marketplace/refresh',
       { method: 'POST', body: JSON.stringify({ automatic }) },
       true
     ),
-  /** Whether the Marketplace checks Clips Kitty's online list by itself, and switching it. */
+  /** Whether the Marketplace checks getclipper's online list by itself, and switching it. */
   online: () => call<OnlineList>('/marketplace/online'),
   setOnline: (enabled: boolean) =>
     call<OnlineList>('/marketplace/online', { method: 'PUT', body: JSON.stringify({ enabled }) }, true),
@@ -232,7 +232,7 @@ export function useStepPlugins(): InstalledPlugin[] | null {
 }
 
 /** The installed plugins a job can name under Suggest edits: turned on, not
- *  blocked, and able to suggest edits for the clips Clips Kitty makes
+ *  blocked, and able to suggest edits for the clips getclipper makes
  *  (lib/steps.ts). Null until the engine answers; the switch stays hidden
  *  while it is null or empty, unless the video already names one. */
 export function useEditPlugins(): InstalledPlugin[] | null {

@@ -1,9 +1,9 @@
 {
   "name": "clips-studio",
   "version": "2.1.0",
-  "description": "Local-first AI clipping studio (desktop app)",
-  "author": "ColinGPT9",
-  "homepage": "https://github.com/ColinGPT9/clips-studio",
+  "description": "getclipper: local-first AI clipping (desktop app), a getfirstsale fork of Clips Studio",
+  "author": "getfirstsale (based on Clips Studio by ColinGPT9)",
+  "homepage": "https://github.com/getfirstsale/getclipper",
   "license": "AGPL-3.0-or-later",
   "main": "./out/main/index.js",
   "private": true,

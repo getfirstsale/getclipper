@@ -144,7 +144,7 @@ feedback:
   # Where the in-app Feedback Hub sends reports (a Cloudflare Worker that
   # files them as GitHub Issues — users need no account; see
   # feedback-relay/README.md to deploy). Empty = reports save to a file.
-  relay_url: "https://clips-studio-feedback.clipsstudio.workers.dev"
+  relay_url: ""  # getclipper: no relay; reports are saved locally (upstream relay removed)
 
 paths:
   data_dir: data

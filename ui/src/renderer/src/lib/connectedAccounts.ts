@@ -119,7 +119,7 @@ async function authenticatedRequest<T>(
 ): Promise<T> {
   const session = await window.studio?.pluginSession?.()
   if (!session) {
-    throw new AccountRequestError('Managing connected accounts requires the Clips Kitty desktop app.', 0, 'no_session')
+    throw new AccountRequestError('Managing connected accounts requires the getclipper desktop app.', 0, 'no_session')
   }
   let response: Response
   try {
@@ -134,7 +134,7 @@ async function authenticatedRequest<T>(
     })
   } catch {
     throw new AccountRequestError(
-      'The account operation failed. Check that Clips Kitty is running and try again.', 0, 'unreachable')
+      'The account operation failed. Check that getclipper is running and try again.', 0, 'unreachable')
   }
   if (!response.ok) {
     // Only the API's deliberately sanitized detail is shown. Never include a

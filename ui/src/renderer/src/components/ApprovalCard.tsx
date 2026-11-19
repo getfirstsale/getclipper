@@ -111,7 +111,7 @@ function ApprovalCard({item, onOpen}: {item: PendingApproval; onOpen: (videoId: 
   if (closed) return null
   const place = item.answered_where === 'discord' ? 'on Discord' : 'in the app'
   return <article className="card border border-accent/50 shadow-xl space-y-3" data-clip-approval tabIndex={-1}>
-    <h2 className="font-semibold">🐱 Clips Kitty · #{item.item_id}</h2>
+    <h2 className="font-semibold">🐱 getclipper · #{item.item_id}</h2>
     {item.thumbnail_url && <img className="max-h-28 rounded" src={`${API_BASE}${item.thumbnail_url}`} alt="Clip preview" />}
     <p>{item.line}</p>
     <p className="text-xs text-muted">{item.platforms.map(platform => woopTargetLabel(platform, accounts)).join(', ')}{item.first_slot && ` · First slot: ${new Date(item.first_slot).toLocaleString()}`}</p>

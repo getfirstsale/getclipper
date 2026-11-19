@@ -69,7 +69,7 @@ function knownScopes(account: ConnectedAccount): string[] {
   return Object.keys(PERMISSION_LABELS).filter((scope) => account.scopes.includes(scope))
 }
 
-/** A connection belongs to Clips Kitty, so all permitted integrations reuse it. */
+/** A connection belongs to getclipper, so all permitted integrations reuse it. */
 export default function ConnectedAccountsCard({
   compact = false,
   onWatchAdded,
@@ -314,7 +314,7 @@ export default function ConnectedAccountsCard({
     if (!added.created) {
       say(t('Your Twitch channel is already in Watched channels.'))
     } else if (automation?.enabled) {
-      say(t('Your Twitch channel is in Watched channels, and Clips Kitty is watching it now.'))
+      say(t('Your Twitch channel is in Watched channels, and getclipper is watching it now.'))
     } else {
       say(t('Your Twitch channel is in Watched channels. Turn on Watch channels on the Watch page when you are ready.'))
     }
@@ -354,7 +354,7 @@ export default function ConnectedAccountsCard({
     const result = await connectedAccounts.disconnect(account.id)
     if (!mounted.current) return
     if (result?.revoked === false) {
-      fail(t('Disconnected from Clips Kitty, but Twitch did not confirm it removed access. To be sure, remove the app under Connections in your Twitch settings.'), true)
+      fail(t('Disconnected from getclipper, but Twitch did not confirm it removed access. To be sure, remove the app under Connections in your Twitch settings.'), true)
     } else {
       say(t('Account disconnected.'))
     }
@@ -406,7 +406,7 @@ export default function ConnectedAccountsCard({
       <div>
         <h3 className="font-semibold">{t('Connected accounts')}</h3>
         <p className="text-xs text-muted mt-1">
-          {t('Connect Twitch once for Clips Kitty and the integrations you permit. Sign in in your browser; no Clips Kitty cloud account is needed.')}
+          {t('Connect Twitch once for getclipper and the integrations you permit. Sign in in your browser; no getclipper cloud account is needed.')}
         </p>
       </div>
 
@@ -529,7 +529,7 @@ export default function ConnectedAccountsCard({
             <div className="space-y-2 border-t border-raised pt-3">
               <p className="text-xs text-muted">{t('Choose the permissions for this connection. Changing them requires signing in again. Watching your own channel needs none.')}</p>
               <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={clips} disabled={busy} onChange={tick(setClips)} />{t('Create native Twitch Clips during a live stream')}</label>
-              <p className="text-xs text-muted">{t("Only apps that use Clips Kitty's local API can ask for a live clip. Pipelines and watched channels never clip a live stream.")}</p>
+              <p className="text-xs text-muted">{t("Only apps that use getclipper's local API can ask for a live clip. Pipelines and watched channels never clip a live stream.")}</p>
               <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={vodClips} disabled={busy} onChange={tick(setVodClips)} />{t('Manage Twitch Clips for my channel, including public VOD clips')}</label>
               <p className="text-xs text-muted">{t("Lets pipelines you allow make public Twitch clips from your channel's VODs. Collecting nominations never publishes a clip.")}</p>
               <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={readChat} disabled={busy} onChange={tick(setReadChat)} />{t('Read Twitch chat and chat events')}</label>

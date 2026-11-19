@@ -17,7 +17,7 @@ export interface DiscordUser {
 
 export type DestinationState = 'connected' | 'gone' | 'denied'
 
-/** A webhook Clips Kitty may post to. Never its token: `has_token` says
+/** A webhook getclipper may post to. Never its token: `has_token` says
  *  whether one is stored on this PC. */
 export interface Destination {
   id: number
@@ -96,7 +96,7 @@ async function call<T>(path: string, init: RequestInit = {}, guarded = false): P
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
   if (guarded) {
     const s = await sessionSecret()
-    if (!s) throw new Error('Changing Discord settings needs the Clips Kitty desktop app.')
+    if (!s) throw new Error('Changing Discord settings needs the getclipper desktop app.')
     headers['X-Clips-Kitty-Session'] = s
   }
   const res = await fetch(`${API_BASE}${path}`, { ...init, headers })
@@ -109,7 +109,7 @@ const send = (method: string, body?: unknown): RequestInit =>
 
 export const discord = {
   status: () => call<DiscordStatus>('/discord/status'),
-  /** The Advanced application id override; '' goes back to Clips Kitty's own. */
+  /** The Advanced application id override; '' goes back to getclipper's own. */
   setClientId: (clientId: string) =>
     call<DiscordStatus>('/discord/settings', send('PATCH', { client_id: clientId }), true),
   /** The sign-in page to open in the user's browser. */
@@ -144,7 +144,7 @@ export const discord = {
       send('DELETE'),
       true
     ),
-  /** Posts "Clips Kitty test message. You can delete it." (confirm first). */
+  /** Posts "getclipper test message. You can delete it." (confirm first). */
   testDestination: (id: number) =>
     call<DestinationTest>(`/discord/destinations/${id}/test`, send('POST'), true)
 }

@@ -13,10 +13,10 @@ import { canManage } from '../lib/plugins'
 
 /** Settings → Discord, for clipping campaigns.
  *
- *  Two separate things live here. Signing in (optional) lets Clips Kitty
+ *  Two separate things live here. Signing in (optional) lets getclipper
  *  show who is connected and list their servers; it never posts as them, and
  *  nothing in Discord's sign-in could. Destinations are webhooks a server
- *  admin made for one channel: the only way Clips Kitty posts by itself.
+ *  admin made for one channel: the only way getclipper posts by itself.
  *  They work with no sign-in at all, as do campaigns submitted by hand.
  *
  *  The card never sees a token. While a sign-in is open in the browser it
@@ -180,7 +180,7 @@ export default function DiscordCard(): JSX.Element {
         got.revoked
           ? t('Disconnected.')
           : t(
-              "Disconnected here, but Discord didn't confirm it. To be sure, remove Clips Kitty in Discord: User Settings → Authorized Apps."
+              "Disconnected here, but Discord didn't confirm it. To be sure, remove getclipper in Discord: User Settings → Authorized Apps."
             )
       )
     })
@@ -218,7 +218,7 @@ export default function DiscordCard(): JSX.Element {
   const testOne = (d: Destination): Promise<void> => {
     if (
       !window.confirm(
-        `${t('Post a test message to')} “${d.label}”?\n\n${t('Clips Kitty test message. You can delete it.')}`
+        `${t('Post a test message to')} “${d.label}”?\n\n${t('getclipper test message. You can delete it.')}`
       )
     )
       return Promise.resolve()
@@ -262,7 +262,7 @@ export default function DiscordCard(): JSX.Element {
   const saveClientId = (): Promise<void> =>
     run(async () => {
       show(await discord.setClientId(clientDraft.trim()), true)
-      say(clientDraft.trim() ? t('Application ID saved.') : t('Using Clips Kitty’s own application.'))
+      say(clientDraft.trim() ? t('Application ID saved.') : t('Using getclipper’s own application.'))
     })
 
   const user = status?.user
@@ -277,14 +277,14 @@ export default function DiscordCard(): JSX.Element {
         <h3 className="font-semibold">{t('Discord')}</h3>
         <p className="text-xs text-muted mt-1 max-w-xl">
           {t(
-            'Send the public links of your published clips to a Discord channel. Add a webhook below, then select it when publishing or in Watched channels. Signing in lets Clips Kitty list your servers. It never posts as you.'
+            'Send the public links of your published clips to a Discord channel. Add a webhook below, then select it when publishing or in Watched channels. Signing in lets getclipper list your servers. It never posts as you.'
           )}
         </p>
       </div>
 
       {!allowed && (
         <p className="text-xs text-warn">
-          {t('Changing Discord settings needs the Clips Kitty desktop app.')}
+          {t('Changing Discord settings needs the getclipper desktop app.')}
         </p>
       )}
 
@@ -391,7 +391,7 @@ export default function DiscordCard(): JSX.Element {
         <p className="label">{t('Destinations')}</p>
         <p className="text-[11px] text-muted">
           {t(
-            'A webhook lets Clips Kitty post a clip’s link to one channel, only where a server admin made it. Webhook posts aren’t credited to your Discord account.'
+            'A webhook lets getclipper post a clip’s link to one channel, only where a server admin made it. Webhook posts aren’t credited to your Discord account.'
           )}
         </p>
         {destinations.length === 0 && <p className="text-xs text-muted">{t('No webhooks yet.')}</p>}
@@ -606,13 +606,13 @@ export default function DiscordCard(): JSX.Element {
           </div>
           <p>
             {t(
-              'For testing with your own Discord application. Leave it empty to use Clips Kitty’s own.'
+              'For testing with your own Discord application. Leave it empty to use getclipper’s own.'
             )}
           </p>
           {status?.redirect_uri && (
             <p>
               {t('Discord sends you back to')} <code>{status.redirect_uri}</code>.{' '}
-              {t('Signing in works only while Clips Kitty runs on port 8765.')}
+              {t('Signing in works only while getclipper runs on port 8765.')}
             </p>
           )}
           {status?.storage && (

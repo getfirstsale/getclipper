@@ -43,7 +43,7 @@ export default function PipelineFields({
   missingText?: string
   /** Shows a ✕ that takes this row away. */
   onRemove?: () => void
-  /** An empty selection leaves finding to Clips Kitty's built-in detector. */
+  /** An empty selection leaves finding to getclipper's built-in detector. */
   defaultChoiceLabel?: string
   /** Gaming uses detector defaults alongside the shared gaming controls. */
   showSettings?: boolean

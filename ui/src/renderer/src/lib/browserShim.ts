@@ -57,9 +57,7 @@ export function installBrowserShim(): void {
     },
     // Somewhere plausible, so export flows can be walked through end to end.
     getDownloadsPath: async () => '/downloads',
-    openDonateWindow: async () => {
-      window.open('https://paypal.me/clipsstudio', '_blank', 'noopener')
-    },
+    openDonateWindow: async () => {},
     openExternal: async (url: string) => {
       window.open(url, '_blank', 'noopener')
       return true
