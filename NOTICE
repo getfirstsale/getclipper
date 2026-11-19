@@ -1,3 +1,27 @@
+getclipper
+Modified by getfirstsale, 2026-11-19.
+
+getclipper is a modified version of Clips Studio (also called Clips Kitty),
+Copyright (C) 2026 ColinGPT9, https://github.com/ColinGPT9/clips-studio.
+It is free software under the GNU Affero General Public License v3 or later,
+the same licence as the original. The full text is in LICENSE.
+
+Changes made by getfirstsale (from upstream commit 1aa6eed):
+  - Renamed the user-facing application name to "getclipper"; new logo and icons.
+  - Removed the in-app donation page (it pointed at the original author's PayPal).
+  - Cleared the bug-report relay URL (reports are saved locally instead of being
+    sent to the original author's server).
+  - Pointed the update feed and project links at github.com/getfirstsale/getclipper.
+  - Replaced README.md; the original is kept as docs/UPSTREAM-README.md.
+  - Renamed the Claude Code skill to skills/getclipper.
+Internal identifiers (package name, appId, module names) are unchanged from upstream.
+
+Not affiliated with or endorsed by the original author.
+
+===============================================================================
+Original notice follows, unchanged
+===============================================================================
+
 Clips Studio
 Copyright (C) 2026 ColinGPT9
 

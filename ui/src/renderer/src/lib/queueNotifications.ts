@@ -36,7 +36,7 @@ function send(title: string, body: string): void {
 
 export function notifyApproval(itemId: number, joke: boolean): void {
   if (document.hasFocus()) return
-  void window.studio?.notify?.('Clips Kitty', `Clip #${itemId} is waiting: Approve, Deny${joke ? ' or Damage Control' : ''}?`, 'clip-approval')
+  void window.studio?.notify?.('getclipper', `Clip #${itemId} is waiting: Approve, Deny${joke ? ' or Damage Control' : ''}?`, 'clip-approval')
 }
 
 export function useQueueNotifications(): void {
@@ -52,7 +52,7 @@ export function useQueueNotifications(): void {
 
     if (notifyOnFinish()) {
       if (e.status === 'failed') {
-        send('Clips Kitty', `${name} failed — ${e.error || 'see the queue for details'}`)
+        send('getclipper', `${name} failed — ${e.error || 'see the queue for details'}`)
       } else {
         const left =
           remaining === null
@@ -60,14 +60,14 @@ export function useQueueNotifications(): void {
             : remaining === 0
               ? ''
               : ` ${remaining} ${remaining === 1 ? 'video' : 'videos'} remaining.`
-        send('Clips Kitty', `${name} has finished processing.${left}`)
+        send('getclipper', `${name} has finished processing.${left}`)
       }
     }
 
     // The batch is done. Sent separately from the per-video toast so turning
     // per-video notifications off still leaves the one that matters most.
     if (remaining === 0 && notifyOnQueueEmpty()) {
-      send('Clips Kitty', 'All queued videos have finished processing.')
+      send('getclipper', 'All queued videos have finished processing.')
     }
   })
 }

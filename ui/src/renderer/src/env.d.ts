@@ -65,7 +65,7 @@ interface Window {
      *  cancelled. Absent in the browser shim and in an older preload. */
     openPluginLink?: (url: string) => Promise<boolean>
     /** Opens a link from an Awesome Clips Kitty entry the same way; `ours`
-     *  says it is in one of Clips Kitty's own lists, which the dialog names.
+     *  says it is in one of getclipper's own lists, which the dialog names.
      *  Absent in the browser shim and in an older preload. */
     openCatalogLink?: (url: string, ours: boolean) => Promise<boolean>
     /** Folder picker for installing a plugin from a folder on this PC. */

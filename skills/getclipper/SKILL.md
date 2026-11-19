@@ -1,27 +1,27 @@
 ---
-name: clips-kitty
-description: Turn long videos and streams into short vertical clips with Clips Kitty, running locally on this computer. Use when someone wants clips, Shorts, Reels or TikToks made from a YouTube, Twitch or Kick link or a video file, or wants to read back or export clips Clips Kitty already made.
+name: getclipper
+description: Turn long videos and streams into short vertical clips with getclipper, running locally on this computer. Use when someone wants clips, Shorts, Reels or TikToks made from a YouTube, Twitch or Kick link or a video file, or wants to read back or export clips getclipper already made.
 ---
 
-# Clips Kitty
+# getclipper
 
-Clips Kitty finds the moments worth posting in a long video, crops them to 9:16 with the
+getclipper finds the moments worth posting in a long video, crops them to 9:16 with the
 speaker kept in frame, burns in captions and writes titles. Everything runs on the user's
 own machine: no account, no upload, no API key.
 
 ## Connecting
 
-The tools come from Clips Kitty's MCP server, which talks to the engine on
+The tools come from getclipper's MCP server, which talks to the engine on
 `127.0.0.1:8765`.
 
 ```bash
-claude mcp add clips-kitty -- python main.py mcp     # from a source checkout
+claude mcp add getclipper -- python main.py mcp     # from a source checkout
 ```
 
 In an installed build the engine's binary is `api.exe`, inside the app's `resources\backend`
 folder, so the command is `api.exe mcp`.
 
-**Clips Kitty has to be running**, either the app itself or `python main.py serve`. If a
+**getclipper has to be running**, either the app itself or `python main.py serve`. If a
 tool reports the engine is not answering, say so and stop: starting it is the user's call,
 not something to work around.
 

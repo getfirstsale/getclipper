@@ -303,7 +303,7 @@ export default function TimelineEditor({
   const [ytStatus, setYtStatus] = useState<YouTubeStatus | null>(null)
   const [upStatus, setUpStatus] = useState<UploadPostStatus | null>(null)
   const [wsStatus, setWsStatus] = useState<UploadPostStatus | null>(null)
-  // WoopSocial is the one Clips Kitty leads with; Upload-Post is the
+  // WoopSocial is the one getclipper leads with; Upload-Post is the
   // alternative for anyone who needs what it does that WoopSocial does not.
   const [provider, setProvider] = useState<Provider>('woopsocial')
   // Both, not just the toggle: a tab that can only say 'not connected'

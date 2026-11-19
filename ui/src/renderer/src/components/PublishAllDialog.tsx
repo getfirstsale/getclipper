@@ -24,7 +24,7 @@ import {
  *  calendar, not an afternoon. Twelve landing on TikTok in the same second
  *  reads as spam and spends the per-account daily cap in one go. The
  *  provider's own scheduler does the spreading, so a run stretching over
- *  weeks keeps going with Clips Kitty closed.
+ *  weeks keeps going with getclipper closed.
  */
 export default function PublishAllDialog({
   clips,

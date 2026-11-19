@@ -93,7 +93,7 @@ export default function RecordingBindingCard({ accountId, stream, disabled, onSa
         <p className="text-xs text-muted" role="status">
           {t('Recording timing verified.')} {stream.mapping.source_id
             ? t('Viewer nominations are available for the matched source.')
-            : t('Viewer nominations will attach when Clips Kitty verifies the complete downloaded recording. Re-run an earlier job to use them.')}
+            : t('Viewer nominations will attach when getclipper verifies the complete downloaded recording. Re-run an earlier job to use them.')}
         </p>
       )}
       {!stream.mapping && stream.recording?.status === 'pending' && (

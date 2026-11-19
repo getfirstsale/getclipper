@@ -22,7 +22,7 @@ import mascot from './assets/mascot.png'
 
 type Page = 'dashboard' | 'queue' | 'watch' | 'studio' | 'creators' | 'marketplace' | 'models' | 'settings'
 
-const GITHUB_URL = 'https://github.com/ColinGPT9/clips-studio'
+const GITHUB_URL = 'https://github.com/getfirstsale/getclipper'
 
 const NAV: { id: Page; label: string; icon: string }[] = [
   { id: 'dashboard', label: 'Dashboard', icon: '◧' },

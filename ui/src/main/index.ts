@@ -33,7 +33,6 @@ const API_PORT = 8765
 
 // One definition for both routes below: the in-app popup and, for Store
 // copies, the system browser. They must not be able to drift apart.
-const DONATE_URL = 'https://paypal.me/clipsstudio'
 
 // The bundled Ollama listens here instead of on 11434, its default. A creator
 // who already runs Ollama owns that port, and two servers fighting over it
@@ -56,7 +55,7 @@ const SESSION_SECRET = process.env.CLIPS_KITTY_SESSION_SECRET || randomBytes(32)
 //
 // Off by default, and while it is off nothing below changes anything: closing
 // the window quits, exactly as it always has. It exists for people who leave
-// Clips Kitty on a spare PC to watch channels (server/automation.py), where
+// getclipper on a spare PC to watch channels (server/automation.py), where
 // closing the window must not stop the watching.
 
 let mainWindow: BrowserWindow | null = null
@@ -99,7 +98,7 @@ async function ensureTray(): Promise<void> {
     .catch(() => nativeImage.createEmpty())
   if (tray) return // a second close raced this one
   tray = new Tray(icon)
-  tray.setToolTip('Clips Kitty: watching for new videos')
+  tray.setToolTip('getclipper: watching for new videos')
   await refreshTrayMenu()
   if (!tray) return
   trayUpdateTimer = setInterval(() => void refreshTrayMenu(), 30000)
@@ -116,7 +115,7 @@ async function refreshTrayMenu(): Promise<void> {
   } catch { /* The optional feature can be unavailable in an older engine. */ }
   tray?.setContextMenu(
     Menu.buildFromTemplate([
-      { label: 'Open Clips Kitty', click: showWindow },
+      { label: 'Open getclipper', click: showWindow },
       { label: 'Away from desk', type: 'checkbox', checked: status.away_from_desk === true,
         enabled: status.enabled === true && (status.away_from_desk === true || (status.connected === true && status.test_ok === true)),
         click: async (item) => {
@@ -131,7 +130,7 @@ async function refreshTrayMenu(): Promise<void> {
         } },
       { type: 'separator' },
       // before-quit asks first if a model is downloading.
-      { label: 'Quit Clips Kitty', click: () => app.quit() }
+      { label: 'Quit getclipper', click: () => app.quit() }
     ])
   )
 }
@@ -186,7 +185,7 @@ async function confirmQuit(parent: BrowserWindow | null): Promise<boolean> {
     buttons: ['Quit anyway', 'Keep downloading'],
     defaultId: 1,
     cancelId: 1,
-    title: 'Clips Kitty',
+    title: 'getclipper',
     message: 'A model is still downloading. Quit anyway?',
     // Nothing starts it again by itself: the engine forgets its downloads
     // when it stops. Started again, it carries on rather than starting over
@@ -232,7 +231,7 @@ function openOllamaLog(dir: string): number | null {
     const fd = openSync(join(dir, 'ollama.log'), 'a')
     ollamaLogDir = dir
     try {
-      writeSync(fd, `\n--- ${new Date().toISOString()} Clips Kitty started Ollama ---\n`)
+      writeSync(fd, `\n--- ${new Date().toISOString()} getclipper started Ollama ---\n`)
     } catch {
       // Only a marker between runs; the log works without it.
     }
@@ -245,7 +244,7 @@ function openOllamaLog(dir: string): number | null {
 /** Start the Ollama runtime that ships inside the app.
  *
  *  Packaged builds carry their own copy (see scripts/fetch_ollama.py) so that
- *  installing Clips Kitty installs everything Clips Kitty needs. In a
+ *  installing getclipper installs everything getclipper needs. In a
  *  checkout there is nothing to start: a developer already has Ollama on its
  *  default port, and the engine falls back to that because startBackend only
  *  overrides the host when packaged.
@@ -447,7 +446,7 @@ function createWindow(): void {
           if (!toldAboutTray && Notification.isSupported()) {
             toldAboutTray = true
             new Notification({
-              title: 'Clips Kitty is still watching',
+              title: 'getclipper is still watching',
               body: 'It keeps running in the system tray. Quit it from the tray icon.'
             }).show()
           }
@@ -609,51 +608,8 @@ ipcMain.handle('pick-image-file', async () => {
   return result.canceled ? null : result.filePaths[0]
 })
 
-// Donation popup: PayPal opens in a small in-app window instead of the
-// external browser. It is a locked-down Chromium window showing the REAL
-// paypal.me page — no Node access, no preload, and any attempt by the page
-// to open further windows goes to the system browser instead.
-ipcMain.handle('open-donate-window', (event) => {
-  // Store policy 10.8.2 permits a third-party payment API and says plainly
-  // that "users may be directed to a browser to complete registration or
-  // transactions". Taking that route means a Store copy hands PayPal to the
-  // system browser rather than hosting a payment page itself, so there is no
-  // in-app payment experience for certification to assess.
-  if (isMicrosoftStore()) {
-    void shell.openExternal(DONATE_URL)
-    return
-  }
-
-  const parent = BrowserWindow.fromWebContents(event.sender) ?? undefined
-  const win = new BrowserWindow({
-    width: 480,
-    height: 720,
-    parent,
-    modal: false,
-    autoHideMenuBar: true,
-    title: 'Donate — paypal.me/clipsstudio',
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      sandbox: true
-    }
-  })
-  // Keep the popup pinned to PayPal: external links (terms, help, …) go to
-  // the system browser rather than navigating the popup somewhere else.
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url)
-    return { action: 'deny' }
-  })
-  win.webContents.on('will-navigate', (e, url) => {
-    if (!/^https:\/\/([\w-]+\.)*paypal\.(com|me)\//.test(url)) {
-      e.preventDefault()
-      shell.openExternal(url)
-    }
-  })
-  // The page title always shows where the user really is.
-  win.on('page-title-updated', (e) => e.preventDefault())
-  void win.loadURL(DONATE_URL)
-})
+// getclipper has no donation page: the upstream project's PayPal is not ours.
+ipcMain.handle('open-donate-window', () => undefined)
 
 // The OS Downloads folder — the default export destination, like other
 // video editors.
@@ -683,6 +639,7 @@ const EXTERNAL_ALLOWED = [
   /^https:\/\/chatgpt\.com\/codex\/settings\/usage$/,
   /^https:\/\/learn\.chatgpt\.com\/docs\//,
   /^https:\/\/code\.claude\.com\/docs\//,
+  /^https:\/\/github\.com\/getfirstsale\/getclipper(\/|$)/,
   /^https:\/\/github\.com\/ColinGPT9\/clips-studio(\/|$)/,
   // YouTube publishing: the setup wizard sends people to Cloud Console and
   // the audit form, and a published clip links to its own watch/Studio page.
@@ -817,19 +774,19 @@ async function openAfterAsking(event: IpcMainInvokeEvent, url: unknown, from: st
 }
 
 ipcMain.handle('open-plugin-link', (event, url: unknown) =>
-  openAfterAsking(event, url, "This link comes from the pipeline's developer, not from Clips Kitty.")
+  openAfterAsking(event, url, "This link comes from the pipeline's developer, not from getclipper.")
 )
 
 // An Awesome Clips Kitty entry's download page or home. The renderer says
-// whether the entry came from one of Clips Kitty's own lists (the one that
+// whether the entry came from one of getclipper's own lists (the one that
 // came with the app or its online copy) or from another list.
 ipcMain.handle('open-catalog-link', (event, url: unknown, ours: unknown) =>
   openAfterAsking(
     event,
     url,
     ours === true
-      ? "This link is in Clips Kitty's list. It opens a website outside Clips Kitty."
-      : "This link is in a list that isn't Clips Kitty's. It opens a website outside Clips Kitty."
+      ? "This link is in getclipper's list. It opens a website outside getclipper."
+      : "This link is in a list that isn't getclipper's. It opens a website outside getclipper."
   )
 )
 
@@ -852,12 +809,12 @@ ipcMain.handle('pick-folder', async () => {
   return result.canceled ? null : result.filePaths[0]
 })
 
-// One Clips Kitty at a time. A second launch used to start a second engine
+// One getclipper at a time. A second launch used to start a second engine
 // that could not bind port 8765 and a window talking to the first one's; with
 // the window hidden in the tray it would look like the app had not started at
 // all. Now it brings the running one forward instead.
 if (!app.requestSingleInstanceLock()) {
-  // Nothing to ask: a download the engine reports belongs to the Clips Kitty
+  // Nothing to ask: a download the engine reports belongs to the getclipper
   // already running, which carries on.
   quitting = true
   app.quit()

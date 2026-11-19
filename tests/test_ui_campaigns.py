@@ -107,7 +107,7 @@ def test_without_the_desktop_app_nothing_that_changes_is_sent(tmp_path):
         "catch (e) { return [String(e.message), calls.length] }"
     )
     got = _run(tmp_path, body, secret="")
-    assert got == ["Changing Discord settings needs the Clips Kitty desktop app.", 0]
+    assert got == ["Changing Discord settings needs the getclipper desktop app.", 0]
 
 
 def test_the_cards_four_states_and_initials(tmp_path):

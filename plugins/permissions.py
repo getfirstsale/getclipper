@@ -1,7 +1,7 @@
 """What a plugin's manifest asks for, in the words the install screen uses.
 
 The labels and the enforced-or-declared split are the ones in
-docs/developers/permissions.md. "Enforced" means Clips Kitty decides what it
+docs/developers/permissions.md. "Enforced" means getclipper decides what it
 hands over (plugins/runner.py); "declared" means the developer states it and
 nothing stops the plugin doing otherwise, because a plugin runs with the
 user's own rights. Nothing here claims more than that. The person installing
@@ -13,17 +13,17 @@ from __future__ import annotations
 import sys
 
 NOTICE = "This pipeline is a program from the internet. It can do anything you can do on this PC."
-ENFORCED = "Clips Kitty hands this over"
+ENFORCED = "getclipper hands this over"
 DECLARED = "the developer says so"
 # What the two say, wherever they are shown (the Marketplace has the same words).
-ENFORCEMENT_NOTE = ("“Clips Kitty hands this over”: Clips Kitty decides what the pipeline is given. "
+ENFORCEMENT_NOTE = ("“getclipper hands this over”: getclipper decides what the pipeline is given. "
                     "“The developer says so”: a promise only. Nothing stops a pipeline doing more, because it "
                     "can do anything you can do on this PC.")
 
 LABELS = {
     "video.read": "Reads the video you process",
     "transcript.read": "Reads its transcript",
-    "ffmpeg": "Uses Clips Kitty's FFmpeg",
+    "ffmpeg": "Uses getclipper's FFmpeg",
     "ollama": "Uses your local AI model",
     "gpu": "Uses your graphics card",
     "network": "Connects to: {hosts}",
@@ -32,7 +32,7 @@ LABELS = {
     "project.read": "Reads your clip library",
     "project.write": "Changes your clip library",
     "twitch.context.read": "Reads permitted Twitch stream and VOD information",
-    "twitch.clips.create": "Asks Clips Kitty to create Twitch Clips when authorized",
+    "twitch.clips.create": "Asks getclipper to create Twitch Clips when authorized",
     "twitch.chat.read": "Reads permitted Twitch chat messages",
     "twitch.chat.send": "Sends messages to the permitted Twitch channel",
     "twitch.events.read": "Receives permitted Twitch stream events",
@@ -55,13 +55,13 @@ EXECUTION = {
 }
 
 # Where an installed plugin came from. "listed-official" and "listed" both
-# come from a catalog listing; the first is in one of the Clips Kitty
+# come from a catalog listing; the first is in one of the getclipper
 # project's own repositories (plugins/catalog.py OFFICIAL_OWNERS).
 TIERS = {
     "official": "Official",
-    "listed-official": "✓ Official · made by the Clips Kitty project",
+    "listed-official": "✓ Official · made by the getclipper project",
     "listed": "Community · not reviewed by a person",
-    "link": "Not listed · Clips Kitty has not checked this",
+    "link": "Not listed · getclipper has not checked this",
 }
 LISTED_TIERS = ("listed-official", "listed")
 
@@ -80,9 +80,9 @@ STEP_WORDS = {
 UNDERSTANDS_ITS_OWN = "Understands what it finds"
 # How long it may take, as the app stops it: rating or understanding the
 # moments, suggesting edits for the clips, or both.
-TIME_LIMIT = "Clips Kitty stops it after {n} {unit} when it rates or understands a video’s moments."
-TIME_LIMIT_EDITS = "Clips Kitty stops it after {n} {unit} when it suggests edits for a video’s clips."
-TIME_LIMIT_BOTH = ("Clips Kitty stops it after {n} {unit} when it rates or understands a video’s moments or "
+TIME_LIMIT = "getclipper stops it after {n} {unit} when it rates or understands a video’s moments."
+TIME_LIMIT_EDITS = "getclipper stops it after {n} {unit} when it suggests edits for a video’s clips."
+TIME_LIMIT_BOTH = ("getclipper stops it after {n} {unit} when it rates or understands a video’s moments or "
                    "suggests edits for its clips.")
 
 
@@ -147,7 +147,7 @@ def requirement_lines(manifest: dict) -> list[str]:
 
 def model_lines(manifest: dict) -> list[dict]:
     """The models it lists, as the manifest states them (Phase 9 adds what
-    is already installed and the sizes Clips Kitty can check)."""
+    is already installed and the sizes getclipper can check)."""
     out = []
     for m in manifest.get("models") or []:
         if isinstance(m, dict):
@@ -159,7 +159,7 @@ def model_lines(manifest: dict) -> list[dict]:
 def step_lines(manifest: dict) -> list[str]:
     """What it can be chosen for, in pill words: Finds moments (a pipeline),
     Understands moments and Rates moments (Rate & understand), Suggests edits
-    (for the clips Clips Kitty makes), or Understands what it finds (a
+    (for the clips getclipper makes), or Understands what it finds (a
     finder that describes its own moments)."""
     from plugins._sdk import manifest as vocabulary
 
@@ -211,7 +211,7 @@ def describe(manifest: dict, *, tier: str = "link") -> dict:
                      "required": bool(service.get("required"))} if service else None),
         "secrets": secret_settings,
         "secrets_notice": secrets_notice() if secret_settings else None,
-        "python_packages": ("This pipeline lists extra parts it needs. Clips Kitty can't download them yet, so it "
+        "python_packages": ("This pipeline lists extra parts it needs. getclipper can't download them yet, so it "
                             "runs without them and may not work."
                             if run.get("python_requirements") else None),
         "steps": step_lines(manifest),
